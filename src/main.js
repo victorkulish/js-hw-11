@@ -27,9 +27,10 @@ function onSearch(event) {
           message:
             'Sorry, there are no images matching your search query. Please try again!',
         });
+        return; // Завершуємо функцію, якщо результатів немає
       }
 
-      listImages.innerHTML = ('beforeend', createMarkup(data.hits));
+      listImages.insertAdjacentHTML('beforeend', createMarkup(data.hits));
 
       const refreshPage = new SimpleLightbox('.gallery a', {
         captions: true,
@@ -42,7 +43,11 @@ function onSearch(event) {
     })
     .catch(err => {
       loader.style.display = 'none';
-      console.log(err);
+      iziToast.error({
+        title: 'Error',
+        message: 'Something went wrong. Please try again later.',
+      });
+      console.log('Error:', err);
     });
 }
 
